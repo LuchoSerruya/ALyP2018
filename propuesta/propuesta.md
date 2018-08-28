@@ -1,7 +1,7 @@
 # Propuesta de trabajo de desarrollo
 
 ## Universidad Nacional de la Patagonia San Juan Bosco
-## Facultade de Ingeniería - Sede Trelew
+## Facultad de Ingeniería - Sede Trelew
 ## Licenciatura en Sistemas
 ## Aspectos Legales y Profesionales
 

@@ -20,11 +20,11 @@
 
 \section{Introducción}
 
-El presente trabajo de investigación se tratará sobre la tecnología \emph{blockchain}\footnote{Infraestructura de computadoras sobre la que corre el protocolo Bitcoin}, haciendo foco en sus capacidades para implementar un mecanismo de firma digital sobre la misma.
+El presente trabajo de investigación se tratará sobre la tecnología \emph{blockchain}\footnote{Infraestructura de computadoras sobre la que corre el protocolo Bitcoin, y otras criptomonedas y aplicaciones descentralizadas}, haciendo foco en sus capacidades para implementar un mecanismo de firma digital sobre la misma.
 
 La primer parte explicará de manera amplia conceptos de criptografía y los tipos que existen, y funciones \emph{hash}. Luego, desarrollará sobre el concepto de firma digital (y la situación actual en la Argentina), y sobre la \emph{Infraestructura de Clave Pública} (\emph{PKI}).
 
-Por último, el trabajo trabajará el concepto de \emph{blockchain} y sobre cómo se podría implementar una infraestructura para firma digital sobre blockchain.
+Por último, el trabajo abarcará el concepto de \emph{blockchain} y cómo se podría implementar una infraestructura de firma digital sobre blockchain.
 
 \subsection{Criptografía}
 
@@ -40,9 +40,9 @@ La criptograía simétrica (o \emph{encripción de clave secreta}) encripta un m
     \caption*{Cifrado y descifrado simétrico (\texttt{P} representa el texto plano, \texttt{C} el mensaje cifrado, \texttt{E} y \texttt{D} las funciones de cifrado/descifrado respectivamente, y \texttt{k} la clave secreta) \autocite{VanhouvtenBlockCiphers}}
 \end{figure}
 
-Los algoritmos de encriptación simétricos pueden trabajar con \emph{bloques} (encriptando bloques de un mismo tamaÃ±o), o con \emph{flujos} (encriptando flujos de datos, pueden ser flujos de 1 bit).  
+Los algoritmos de encriptación simétricos pueden trabajar con \emph{bloques} (encriptando bloques de un mismo tamaño), o con \emph{flujos} (encriptando flujos de datos, pueden ser flujos de 1 bit).  
 
-Este tipo de encriptación es muy performante y no incrementa el tamaÃ±o del mensaje, pero introduce una vulnerabilidad al tener que compartir la clave secreta entre las partes que se están queriendo comunicar.
+Este tipo de encriptación es muy performante y no incrementa el tamaño del mensaje, pero introduce una vulnerabilidad al tener que compartir la clave secreta entre las partes que se están queriendo comunicar.
 
 \subsubsection{Asimétrica}
 
@@ -56,7 +56,7 @@ Teniendo este par de claves, se puede operar de dos modos distintos:
     \item Modo autenticación: el emisor encripta el mensaje (o un \emph{digesto} del mensaje) con su clave privada y los anexa al mensaje. El receptor desencripta este anexo con la clave pública del emisor, y compara el anexo desencriptado con el mensaje (o el digesto pudo generar el receptor). Si son iguales, entonces se garantiza que el mensaje fue enviado por el emisor, y que no fue alterado en el camino
 \end{itemize}
 
-Claramente este tipo de encripción genera mayor seguridad en la comunicación, debido a que las claves para desencriptar los mensajes no se deben intercambiar entre las partes previamente a comenzar la comunicación (son privadas a cada cliente y no deben ser reveladas). Sin embargo, aumentan el tamaÃ±o del mensaje y no son algoritmos tan performantes como los simétricos.
+Claramente este tipo de encripción genera mayor seguridad en la comunicación, debido a que las claves para desencriptar los mensajes no se deben intercambiar entre las partes previamente a comenzar la comunicación (son privadas a cada cliente y no deben ser reveladas). Sin embargo, aumentan el tamaño del mensaje y no son algoritmos tan performantes como los simétricos.
 
 \subsection{Funciones de \emph{hash}}
 
@@ -89,7 +89,6 @@ Se entiende por firma digital al resultado de aplicar a un documento digital un 
 Esta definición da a entender un procedimiento de firma digital similar al descripto previamente, donde el emisor firmaría con su \emph{clave privada} (\emph{conocimiento encontrado bajo absoluto control del firmante}) el mensaje o su digesto.
 
 A lo largo del desarrollo de la ley, se habla también de conceptos relacionados con la tecnología \emph{PKI}, tales como \emph{Certificado}, \emph{Certificador licenciado}, y \emph{Ente licenciante}.    
-
 
 \section{\emph{PKI}: \emph{Public Key Infrastructure}}
 La RFC 4949 define la \emph{Infraestructura de Clave Pública} (\emph{PKI}) como un conjunto de hardware, software, personas, políticas, y procedimientos necesarios para crear, manejar, almacenar, distribuir, y remover certificados digitales basados en criptografía asimétrica. El objetio principal para desarrollar PKI es establecer una forma segura, conveniente, y eficiente de adquirir claves públicas \autocite{StallingsPKI}.
@@ -124,13 +123,15 @@ Una vez verificados todos los certificados, se puede establecer una conexión se
 
 \section{\emph{Blockchain}}
 
-Blockchain, o la \emph{cadena de bloques}, es el \dq{libro de cuentas} público, ordenado en el tiempo, e \emph{inmutable} de todas las transacciones en la redes de criptomonedas. Cada bloque está identificado por un \emph{hash} en la cadena y está vinculado con su bloque anterior referenciando su \emph{hash}. Todos los bloques están relacionados con su bloque anterior, a excepción del primer bloque, también llamado bloque \emph{génesis}. 
+Blockchain, o la \emph{cadena de bloques}, es el \dq{libro de cuentas} público, ordenado en el tiempo, e \emph{inmutable} de todas las transacciones en la redes de criptomonedas. Cada bloque está identificado por un \emph{hash} en la cadena y está vinculado con su bloque anterior referenciando su \emph{hash}. Todos los bloques están relacionados con su bloque anterior, a excepción del primer bloque, también llamado bloque \emph{génesis}. También se puede definir blockchain como una base de datos distribuida, en donde cada nodo tiene una copia entera de la base.
 
-Bloques nuevo son aÃ±adidos a la cadena cada cierto tiempo. El protocolo de blockchain maneja una \emph{dificultad}\footnote{La dificultad signifca qué tan difícil es para los mineros generar un bloque nuevo} para agregar nuevos bloques. Puede ir aumentando o disminuyendo según la capacidad de cómputo disponible en la red, para que se mantenga la frecuencia de un bloque nuevo cada el tiempo determinado (10 minutos en la blockchain de Bitcoin) \autocite{MasteringBlockchainBlockchain}.
+Bloques nuevo son añadidos a la cadena cada cierto tiempo. El protocolo de blockchain maneja una \emph{dificultad}\footnote{La dificultad signifca qué tan difícil es para los mineros generar un bloque nuevo} para agregar nuevos bloques. Puede ir aumentando o disminuyendo según la capacidad de cómputo disponible en la red, para que se mantenga la frecuencia de un bloque nuevo cada el tiempo determinado (10 minutos en la blockchain de Bitcoin) \autocite{MasteringBlockchainBlockchain}.
 
 \subsection{Minería de bloques}
 
-La minería de un bloques es una tarea que conlleva muchos recursos (de hardware y de electricidad) con el cual se agregan nuevos bloques a la red. Los bloques contienen las transacciones que son validadas mediante el proceso de minado (llevado a cabo por los nodos mineros) y son agregadas a la cadena de bloques. Los mineros (computadoras que están corriendo el software necesario para ejecutar los algoritmos de minado) que generen correctamente el nuevo bloque, se llevan una recompensa (en Bitcoin, el minero se lleva una cantidad de bitcoins)do. Esto también asegura el sistema contra fraudes y ataques de \emph{doble gasto}\footnote{Situación en la que se realizan dos o más transacciones con un mismo dinero}.
+La minería de un bloques es una tarea que conlleva muchos recursos (de hardware y de electricidad) con el cual se agregan nuevos bloques a la red. Los bloques contienen las transacciones que son validadas mediante el proceso de minado (llevado a cabo por los nodos mineros). Los mineros (computadoras que están corriendo el software necesario para ejecutar los algoritmos de minado) que generen correctamente el nuevo bloque, se llevan una recompensa (en Bitcoin, el minero se lleva una cantidad de bitcoins). 
+
+Cuando se genera un nuevo bloque, el minero que lo generó hace una \emph{difusión} del bloque nuevo a toda la red para que el resto de los mineros lo verifique. Esto asegura el sistema contra fraudes y ataques de \emph{doble gasto}\footnote{Situación en la que se realizan dos o más transacciones con un mismo dinero}. 
 
 El concepto de \dq{minería} se debe a que las monedas (en el caso de las blockchain de criptomonedas) se crean o se \dq{emiten} al crear un nuevo bloque; es una analogía a la minería de oro, en donde en base a un trabajo se obtiene algo de valor.
 
@@ -175,9 +176,28 @@ La otra solución planteada es un enfoque descentralizado: \emph{Red de Confianz
 
 En el contexto de PKI, blockchain puede proveer características de seguridad muy valiosas como revocación de certificados, eliminación de puntos de fallo, y un registro de transacciones fiable.
 
-Existen varias implementaciones de PKI sobre blockchain; \autocite{BlockchainBasedPKIFramework} plantea un \emph{framework} gestionar un sistema de PKI sobre blockchain. 
+Existen varias implementaciones de PKI sobre blockchain; \autocite{BlockchainBasedPKIFramework} plantea un \emph{framework} gestionar un sistema de PKI sobre blockchain que soporta la revocación de certificados. Su diseño está basado en \emph{certificados X.509 híbridos}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/blockchain-pki-certificates.png}
+    \caption*{Certificados X.509 híbridos \autocite{BlockchainBasedPKIFramework}}
+\end{figure}
 
+La idea principal de esta implementación es que cada CA tiene un \emph{contrato inteligente} (\emph{smart contract})\footnote{Programas que corren sobre la blockchain y modifican su estado \autocite{SmartContracts}} dedicado que incluye la siguiente información:
+
+\begin{itemize}
+    \item Lista on los \emph{hashes} de los certificados emitidos
+    \item Lista con los \emph{hashes} de los certificados revocados
+\end{itemize}
+
+Tanto los CA raíces como los CA intermedios se representan con un contrato dedicado. Con esta estructura, crear una nueva CA consiste en crear un nuevo contrato (la CA padre crea el contrato, y agrega el \emph{hash} del certificado de la CA hija a su lista de CA emitidos).
+
+Como todos los nodos que componen la red tienen una copia de la base de datos (tienen una copia de la blockchain), verificar un certificado sigue siendo el mismo procedimiento que en la versión original de PKI - se debe validar toda la cadena de certificados, desde la CA raíz hasta el usuario final.
+
+En el caso de que se deba revocar un certificado, sencillamente la CA encargada de emitir dicho certificado actualiza sus listas de \emph{hashes} moviendo el \emph{hash} del certificado a revocar de la lista de \emph{hashes} emitidos a la de los revocados. Esta notificación será enviada al resto de los nodos instantáneamente, logrando una actualización de los certificados activos, y eliminando la necesidad de una CRL. 
+
+Esta característica también significa una protección frente a \emph{atanque de hombre en el medio} (\emph{Men-in-the-middle attacks})\footnote{Ataque a la seguridad que consiste en enviar un certificado falso, haciéndolo pasar por uno válido, para así interceptar la comunicación}. En la versión original de PKI, en caso de que una CA se vea comprometida, los usuarios finales tendrían que esperar a la actualización de la CRL para recién anular el certificado de la CA en cuestión (mientras tanto podrían recibir certificados falsos firmados por la CA comprometida). Con PKI corriendo sobre blockchain, esta situación se vuelve virtualmente imposible. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FIN DOCUMENTO, AHORA REFERENCIAS

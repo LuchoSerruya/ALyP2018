@@ -99,7 +99,7 @@ PKI se compone de varios componentes:
     \item Entidad final: concepto que engloba tanto usuarios finales, dispositivos o servidores, o cualquier otra entidad que necesite ser identificada en el ámbito de certificados de clave pública. Estas entidades mayormente consumen y/o soportan servicios relacionados con PKI
     \item Autoridad de Certificación (\emph{Certification Authority - CA}): emisor de certificados y, usualmente, de las listas de revocación de certificados
     \item Autoridad de Registro (\emph{Registration Authority - RA}): componente opcional (la CA puede llevar a cabo sus funciones) que se encarga de verificar que un usuario que solicita un certificado es quién dice ser.
-    \item Emisor de CRL: componente opcional (la CA puede llevar a cabo sus funciones) que se encarga de emitir las listas de revocación de certificados
+    \item Emisor de CRL: componente opcional (la CA puede llevar a cabo sus funciones) que se encarga de emitir las \emph{listas de revocación de certificados} (listas que indican todos los certificados que han sido revocados, y por lo tanto no se deberían aceptar)
     \item Repositorio: termino genérico para representar cualquier método para almacenar certificados y listas de revocación de certificados para que puedan ser accedidos por usuarios finales
 \end{itemize}
 
@@ -129,7 +129,9 @@ Bloques nuevo son añadidos a la cadena cada cierto tiempo. El protocolo de bloc
 
 \subsection{Minería de bloques}
 
-La minería de un bloques es una tarea que conlleva muchos recursos (de hardware y de electricidad) con el cual se agregan nuevos bloques a la red. Los bloques contienen las transacciones que son validadas mediante el proceso de minado (llevado a cabo por los nodos mineros). Los mineros (computadoras que están corriendo el software necesario para ejecutar los algoritmos de minado) que generen correctamente el nuevo bloque, se llevan una recompensa (en Bitcoin, el minero se lleva una cantidad de bitcoins). 
+La minería de un bloques es una tarea que conlleva muchos recursos (de hardware y de electricidad) mediante el cual se agregan nuevos bloques a la red. Los bloques contienen las transacciones que son validadas mediante el proceso de minado (llevado a cabo por los nodos mineros). 
+
+Los \emph{mineros} (computadoras que están corriendo el software necesario para ejecutar los algoritmos de minado) que generen correctamente el nuevo bloque, se llevan una recompensa (en Bitcoin, el minero se lleva una cantidad de bitcoins). De esta forma, existe un incentivo para que se dispongan computadoras y recursos en pos de que funcione el protocolo y de mantenerlo activo.
 
 Cuando se genera un nuevo bloque, el minero que lo generó hace una \emph{difusión} del bloque nuevo a toda la red para que el resto de los mineros lo verifique. Esto asegura el sistema contra fraudes y ataques de \emph{doble gasto}\footnote{Situación en la que se realizan dos o más transacciones con un mismo dinero}. 
 
@@ -151,7 +153,7 @@ Debido a que es fácil calcular el \emph{hash} de un valor, pero imposible conse
 
 Una vez conseguido el \emph{hash}, el bloque es inmediatamente difundido por la red. Debe ser aceptado por los otros mineros para ser agregado a la red \autocite{MasteringBlockchainProofOfWork}. 
 
-Blockchain se dice que es \dq{inmutable} debido a la dificultad que conllevaría modificar un bloque. En caso de modificar un bloque, el \emph{hash} se vería modificado también, por lo cual habría que recalcularlo (lo cual es una tarea muy costosa). No solo eso, sino que si el bloque no es el último de la cadena -tiene otros bloques por delante-, habría que modificar esos otros bloques también (ya que cada bloque tiene el \emph{hash} del anterior, a modo de puntero). Por lo tanto, blockchain no es en sí inmutable, pero modificar un dato que ya se escribió en un bloque conllevaría demasiado trabajo, haciéndolo inviable.
+Blockchain se dice que es \dq{inmutable} debido a la dificultad que conllevaría modificar un bloque. En caso de modificar un bloque, el \emph{hash} se vería modificado también, por lo tanto habría que recalcularlo (lo cual es una tarea muy costosa). No solo eso, sino que si el bloque no es el último de la cadena -tiene otros bloques por delante-, habría que modificar esos otros bloques también (ya que cada bloque tiene el \emph{hash} del anterior, a modo de puntero). Por lo tanto, blockchain no es en sí inmutable, pero modificar un dato que ya se escribió en un bloque conllevaría demasiado trabajo, haciéndolo inviable.
 
 \subsubsection*{Algoritmo de minado}
 
@@ -166,13 +168,13 @@ La secuencia de pasos que llevan a cabo los mineros que crear un nuevo bloque es
 \end{itemize}
 
 \subsection{\emph{PKI} sobre \emph{Blockchain}}
-La Infraestructura de Clave Publica provee un metodo seguro para autenticar identidades sobre Internet. Define las políticas y los procedimientos necesarios para emitir, gestionar, validr y distribuir certificados para poder usar encripción asimétrica de forma segura. El manejo de claves públicas de PKI usualmente está basado en el estándar de certificados \emph{X.509}, que provee verificación de posesión de una clave privada gracias a un ente externo (Autoridad Certificante).
+La Infraestructura de Clave Publica provee un metodo seguro para autenticar identidades sobre Internet. Define las políticas y los procedimientos necesarios para emitir, gestionar, validar y distribuir certificados para poder usar encripción asimétrica de forma segura. El manejo de claves públicas de PKI usualmente está basado en el estándar de certificados \emph{X.509}, que provee verificación de posesión de una clave privada gracias a un ente externo (Autoridad Certificante).
 
-Sin embargo, las CA no dejan de ser \emph{puntos únicos de fallo} (\emph{single point of failure}), lo que signifca que errores presentes en las CA significan emisiones de certificados sin autorizar \autocite{PKICAErrors}. Estos problemas no sólo afectan a las CA intermedias, sino que a las raíces también.
+Sin embargo, las CA no dejan de ser \emph{puntos únicos de fallo} (\emph{single point of failure}), lo que significa que errores presentes (principalmente de seguridad, haciendo propenso a una CA al ataque de un \emph{hacker}) en las CA significan emisiones de certificados sin autorizar \autocite{PKICAErrors}. Estos problemas no sólo afectan a las CA intermedias, sino que a las raíces también.
 
-Para resolver este problema, se plantearon dos soluciones distintas. La primera de ellas consiste en una \emph{Infraestructura de Clave Pública basada en logs} (\emph{log-based PKI}), la cual consiste en implementar servidor con alta disponibilidad que registren y monitoreen todos los certificados emitidos por la CA. Los certificaods no son considerados válidos hasta no ser registrados en el \emph{log}, de esta manera se expone rápidamente cualquier emisión incorrecta. Ante la detección de cualquier comportamiento extraño por parte de la CA, es responsabilidad del dominio de actuar frente a los certificados no autorizados que han sido emitidos.
+Para resolver este problema, se plantearon dos soluciones distintas. La primera de ellas consiste en una \emph{Infraestructura de Clave Pública basada en logs} (\emph{log-based PKI}), la cual consiste en implementar servidor con alta disponibilidad que registren y monitoreen todos los certificados emitidos por la CA. Los certificados no son considerados válidos hasta no ser registrados en el \emph{log}, de esta manera se expone rápidamente cualquier emisión incorrecta. Ante la detección de cualquier comportamiento extraño por parte de la CA, es responsabilidad del dominio de actuar frente a los certificados no autorizados que han sido emitidos.
 
-La otra solución planteada es un enfoque descentralizado: \emph{Red de Confianza} (\emph{Web of Trust}). En esta propuesta, los usuarios son encargados de indicar que otros usuarios son confiables firmando sus certificados. De esta forma, un usuario acumula varias firmas en su certificado, generando confianza (enfoque similar al de PGP). De esta forma se elimina el punto único de fallo, pero la desventaja que se introduce es que los nuevos usuarios que ingresen a la red no tendrán ninguna firma en su certificado, por lo tanto su certificado será inútil.
+La otra solución planteada es un enfoque descentralizado: \emph{Red de Confianza} (\emph{Web of Trust}). En esta propuesta, los usuarios son encargados de indicar que otros usuarios son confiables firmando sus certificados. De esta forma, un usuario acumula varias firmas en su certificado, generando confianza (enfoque similar al de PGP). De esta forma se elimina el punto único de fallo, pero la desventaja que se introduce es que los nuevos usuarios que ingresen a la red no tendrán ninguna firma en su certificado, por lo tanto les resultará inútil.
 
 En el contexto de PKI, blockchain puede proveer características de seguridad muy valiosas como revocación de certificados, eliminación de puntos de fallo, y un registro de transacciones fiable.
 
@@ -198,6 +200,14 @@ Como todos los nodos que componen la red tienen una copia de la base de datos (t
 En el caso de que se deba revocar un certificado, sencillamente la CA encargada de emitir dicho certificado actualiza sus listas de \emph{hashes} moviendo el \emph{hash} del certificado a revocar de la lista de \emph{hashes} emitidos a la de los revocados. Esta notificación será enviada al resto de los nodos instantáneamente, logrando una actualización de los certificados activos, y eliminando la necesidad de una CRL. 
 
 Esta característica también significa una protección frente a \emph{atanque de hombre en el medio} (\emph{Men-in-the-middle attacks})\footnote{Ataque a la seguridad que consiste en enviar un certificado falso, haciéndolo pasar por uno válido, para así interceptar la comunicación}. En la versión original de PKI, en caso de que una CA se vea comprometida, los usuarios finales tendrían que esperar a la actualización de la CRL para recién anular el certificado de la CA en cuestión (mientras tanto podrían recibir certificados falsos firmados por la CA comprometida). Con PKI corriendo sobre blockchain, esta situación se vuelve virtualmente imposible. 
+
+\section{Conclusión}
+
+Blockchain como tecnología moderna, sigue en una etapa de mucho auge. Debido a esto, muchas soluciones de software o arquitecturas se intentan plantear en blockchain, muchas sin éxito.
+
+Particularmente con PKI, blockchain (complimentado también con los \emph{smart contracts}) puede ser una buena alternativa, logrando tener una infraestructura que certifica la autenticidad de un ente, corriendo en una red descentralizada de computadoras sin contar con un esquema de confianza, manteniendo la seguridad y la integridad, y sin contar con un administrador central \autocite{SmartContractsUseCases}.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FIN DOCUMENTO, AHORA REFERENCIAS

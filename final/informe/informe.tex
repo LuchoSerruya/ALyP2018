@@ -165,11 +165,17 @@ La secuencia de pasos que llevan a cabo los mineros que crear un nuevo bloque es
 \end{itemize}
 
 \subsection{\emph{PKI} sobre \emph{Blockchain}}
-%As CAs appear to be single points of failure in PKI, CA errors or breaches have resulted in unauthorized certificates being issued
-
 La Infraestructura de Clave Publica provee un metodo seguro para autenticar identidades sobre Internet. Define las políticas y los procedimientos necesarios para emitir, gestionar, validr y distribuir certificados para poder usar encripción asimétrica de forma segura. El manejo de claves públicas de PKI usualmente está basado en el estándar de certificados \emph{X.509}, que provee verificación de posesión de una clave privada gracias a un ente externo (Autoridad Certificante).
 
-Sin embargo, las CA no dejan de ser \emph{puntos únicos de fallo} (\emph{single point of failure}), lo que signifca que errores presentes en las CA significan emisiones de certificados sin autorizar \autocite{PKICAErrors}
+Sin embargo, las CA no dejan de ser \emph{puntos únicos de fallo} (\emph{single point of failure}), lo que signifca que errores presentes en las CA significan emisiones de certificados sin autorizar \autocite{PKICAErrors}. Estos problemas no sólo afectan a las CA intermedias, sino que a las raíces también.
+
+Para resolver este problema, se plantearon dos soluciones distintas. La primera de ellas consiste en una \emph{Infraestructura de Clave Pública basada en logs} (\emph{log-based PKI}), la cual consiste en implementar servidor con alta disponibilidad que registren y monitoreen todos los certificados emitidos por la CA. Los certificaods no son considerados válidos hasta no ser registrados en el \emph{log}, de esta manera se expone rápidamente cualquier emisión incorrecta. Ante la detección de cualquier comportamiento extraño por parte de la CA, es responsabilidad del dominio de actuar frente a los certificados no autorizados que han sido emitidos.
+
+La otra solución planteada es un enfoque descentralizado: \emph{Red de Confianza} (\emph{Web of Trust}). En esta propuesta, los usuarios son encargados de indicar que otros usuarios son confiables firmando sus certificados. De esta forma, un usuario acumula varias firmas en su certificado, generando confianza (enfoque similar al de PGP). De esta forma se elimina el punto único de fallo, pero la desventaja que se introduce es que los nuevos usuarios que ingresen a la red no tendrán ninguna firma en su certificado, por lo tanto su certificado será inútil.
+
+En el contexto de PKI, blockchain puede proveer características de seguridad muy valiosas como revocación de certificados, eliminación de puntos de fallo, y un registro de transacciones fiable.
+
+Existen varias implementaciones de PKI sobre blockchain; \autocite{BlockchainBasedPKIFramework} plantea un \emph{framework} gestionar un sistema de PKI sobre blockchain. 
 
 
 
